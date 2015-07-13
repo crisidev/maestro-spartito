@@ -1,18 +1,18 @@
 #!/bin/bash
-# genenerated by dockergen{{range $k, $v := $}}{{$etcd := "http://etcd.local.maestro.io:2379"}}{{$ttl := 15}}{{$username := $v.Env.MAESTRO_USERNAME}}{{$stage := $v.Env.MAESTRO_STAGE}}{{$app := $v.Env.MAESTRO_APP}}{{$component := $v.Env.MAESTRO_COMPONENT}}{{$node := $v.Env.MAESTRO_NODE}}{{$published := $v.Env.MAESTRO_PUBLISHED}}{{$frontend := $v.Env.MAESTRO_FRONTEND}}{{$id := $v.Env.MAESTRO_ID}}
+# genenerated by dockergen{{range $k, $v := $}}{{$etcd := "http://etcd.local.maestro.io:2379"}}{{$ttl := "15"}}{{$username := $v.Env.MAESTRO_USERNAME}}{{$stage := $v.Env.MAESTRO_STAGE}}{{$app := $v.Env.MAESTRO_APP}}{{$component := $v.Env.MAESTRO_COMPONENT}}{{$node := $v.Env.MAESTRO_NODE}}{{$published := $v.Env.MAESTRO_PUBLISHED}}{{$frontend := $v.Env.MAESTRO_FRONTEND}}{{$id := $v.Env.MAESTRO_ID}}
 {{if $username}}
 {{if $v.IP}} # container has an internal ip
 {{if $v.Addresses}} # container has exposed ports
-/usr/local/bin/etcdctl --ttl $ttl -C {{$etcd}} set /skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}}/{{$id}} '{"host":"{{$v.IP}}","port":"{{range $v.Addresses}}{{.Port}}/{{.Proto}}:{{end}}","text":"node:{{$node}},username:{{$username}},stage:{{$stage}},app:{{$app}},component:{{$component}},id:{{$id}},published:{{$published}},frontend:{{$frontend}}{{range $kk, $vv := $v.Volumes}},volume:{{$vv.Path}}:{{$vv.HostPath}}{{end}}"}'
+/usr/local/bin/etcdctl --ttl {{$ttl}} -C {{$etcd}} set /skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}}/{{$id}} '{"host":"{{$v.IP}}","port":"{{range $v.Addresses}}{{.Port}}/{{.Proto}}:{{end}}","text":"node:{{$node}},username:{{$username}},stage:{{$stage}},app:{{$app}},component:{{$component}},id:{{$id}},published:{{$published}},frontend:{{$frontend}}{{range $kk, $vv := $v.Volumes}},volume:{{$vv.Path}}:{{$vv.HostPath}}{{end}}"}'
 {{if $published}}
-/usr/local/bin/etcdctl --ttl $ttl -C {{$etcd}} set /skydns/io/maestro/{{$username}}-{{$app}}/{{$id}} '{"host":"{{$node}}.maestro.io"}'
+/usr/local/bin/etcdctl --ttl {{$ttl}} -C {{$etcd}} set /skydns/io/maestro/{{$username}}-{{$app}}/{{$id}} '{"host":"{{$node}}.maestro.io"}'
 {{if $frontend}}
-/usr/local/bin/etcdctl --ttl $ttl -C {{$etcd}} set /maestro.io/apps/{{$username}}-{{$app}} "/skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}}"
+/usr/local/bin/etcdctl --ttl {{$ttl}} -C {{$etcd}} set /maestro.io/apps/{{$username}}-{{$app}} "/skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}}"
 {{end}}
 {{end}}
 {{else}} # container run without exposed ports
-/usr/local/bin/etcdctl --ttl $ttl -C {{$etcd}} set /skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}} '{"host":"{{$v.IP}}","text":"node:{{$node}},username:{{$username}},stage:{{$stage}},app:{{$app}},component:{{$component}},id:{{$id}},published:{{$published}},frontend:{{$frontend}}{{range $kk, $vv := $v.Volumes}},volume:{{$vv.Path}}:{{$vv.HostPath}}{{end}}"}'
+/usr/local/bin/etcdctl --ttl {{$ttl}} -C {{$etcd}} set /skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}} '{"host":"{{$v.IP}}","text":"node:{{$node}},username:{{$username}},stage:{{$stage}},app:{{$app}},component:{{$component}},id:{{$id}},published:{{$published}},frontend:{{$frontend}}{{range $kk, $vv := $v.Volumes}},volume:{{$vv.Path}}:{{$vv.HostPath}}{{end}}"}'
 {{end}}
 {{else}} # container run with --net=host option. assing ip to node
-/usr/local/bin/etcdctl --ttl $ttl -C {{$etcd}} set /skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}} '{"host":"{{$node}}.maestro.io","text":"node:{{$node}},username:{{$username}},stage:{{$stage}},app:{{$app}},component:{{$component}},id:{{$id}},published:{{$published}},frontend:{{$frontend}}{{range $kk, $vv := $v.Volumes}},volume:{{$vv.Path}}:{{$vv.HostPath}}{{end}}"}'
+/usr/local/bin/etcdctl --ttl {{$ttl}} -C {{$etcd}} set /skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}} '{"host":"{{$node}}.maestro.io","text":"node:{{$node}},username:{{$username}},stage:{{$stage}},app:{{$app}},component:{{$component}},id:{{$id}},published:{{$published}},frontend:{{$frontend}}{{range $kk, $vv := $v.Volumes}},volume:{{$vv.Path}}:{{$vv.HostPath}}{{end}}"}'
 {{end}}{{end}}{{end}}
