@@ -11,7 +11,7 @@
 # text: node,username,stage,app,component,dns,instance
 # into /skydns/io/maestro/username/stage/app/component
 # enabling resolution of component.app.stage.username.maestro.io
-curl -XPUT -q -d value="{\"host\":\"{{$value.IP}}\",\"port\":{{$address.Port}},\"text\":\"node:{{$value.Env.MAESTRO_NODE}},username:{{$value.Env.MAESTRO_USERNAME}},stage:{{$value.Env.MAESTRO_STAGE}},app:{{$value.Env.MAESTRO_APP}},component:{{$value.Env.MAESTRO_COMPONENT}},dns:{{$value.Env.MAESTRO_DNS}},instance:{{$value.Env.MAESTRO_NUMBER}}\"}" -d ttl=15 http://etcd.local.maestro.io:2379/v2/keys/skydns/io/maestro/{{$value.Env.MAESTRO_USERNAME}}/{{$value.Env.MAESTRO_STAGE}}/{{$value.Env.MAESTRO_APP}}/{{$value.Env.MAESTRO_COMPONENT}}/{{value.Env.MAESTRO_NUMBER}}
+curl -XPUT -q -d value="{\"host\":\"{{$value.IP}}\",\"port\":{{$address.Port}},\"text\":\"node:{{$value.Env.MAESTRO_NODE}},username:{{$value.Env.MAESTRO_USERNAME}},stage:{{$value.Env.MAESTRO_STAGE}},app:{{$value.Env.MAESTRO_APP}},component:{{$value.Env.MAESTRO_COMPONENT}},dns:{{$value.Env.MAESTRO_DNS}},instance:{{$value.Env.MAESTRO_NUMBER}}\"}" -d ttl=15 http://etcd.local.maestro.io:2379/v2/keys/skydns/io/maestro/{{$value.Env.MAESTRO_USERNAME}}/{{$value.Env.MAESTRO_STAGE}}/{{$value.Env.MAESTRO_APP}}/{{$value.Env.MAESTRO_COMPONENT}}/{{$value.Env.MAESTRO_NUMBER}}
 {{if $value.Env.MAESTRO_PUBLISHED}}
 # put
 # host: node.maestro.io
