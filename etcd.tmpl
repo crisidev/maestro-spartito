@@ -1,42 +1,18 @@
 #!/bin/bash
-# Genenerated by {{.Env.MAESTRO_USERNAME}}
-{{range $key, $value := $}}
-{{if $value.Env.MAESTRO_USERNAME}}
-{{ $addrLen := len $value.Addresses }}
-{{ if gt $addrLen 0 }}
-{{ with $address := index $value.Addresses 0 }}
-# put
-# host: ip_address
-# port: port
-# text: node,username,stage,app,component,dns,instance
-# into /skydns/io/maestro/username/stage/app/component
-# enabling resolution of component.app.stage.username.maestro.io
-{{if $value.Env.MAESTRO_NUMBER}}
-{{if gt $value.Env.MAESTRO_NUMBER "0" }}
-curl -XPUT -q -d value="{\"host\":\"{{$value.IP}}\",\"port\":{{$address.Port}},\"text\":\"node:{{$value.Env.MAESTRO_NODE}},username:{{$value.Env.MAESTRO_USERNAME}},stage:{{$value.Env.MAESTRO_STAGE}},app:{{$value.Env.MAESTRO_APP}},component:{{$value.Env.MAESTRO_COMPONENT}},dns:{{$value.Env.MAESTRO_DNS}},instance:{{$value.Env.MAESTRO_NUMBER}}\"}" -d ttl=15 http://etcd.local.maestro.io:2379/v2/keys/skydns/io/maestro/{{$value.Env.MAESTRO_USERNAME}}/{{$value.Env.MAESTRO_STAGE}}/{{$value.Env.MAESTRO_APP}}/{{$value.Env.MAESTRO_COMPONENT}}/{{$value.Env.MAESTRO_NUMBER}}
-{{end}}
-{{else}}
-curl -XPUT -q -d value="{\"host\":\"{{$value.IP}}\",\"port\":{{$address.Port}},\"text\":\"node:{{$value.Env.MAESTRO_NODE}},username:{{$value.Env.MAESTRO_USERNAME}},stage:{{$value.Env.MAESTRO_STAGE}},app:{{$value.Env.MAESTRO_APP}},component:{{$value.Env.MAESTRO_COMPONENT}},dns:{{$value.Env.MAESTRO_DNS}},instance:{{$value.Env.MAESTRO_NUMBER}}\"}" -d ttl=15 http://etcd.local.maestro.io:2379/v2/keys/skydns/io/maestro/{{$value.Env.MAESTRO_USERNAME}}/{{$value.Env.MAESTRO_STAGE}}/{{$value.Env.MAESTRO_APP}}/{{$value.Env.MAESTRO_COMPONENT}}/1
-{{end}}
-{{if $value.Env.MAESTRO_PUBLISHED}}
-# put
-# host: node.maestro.io
-# into /skydns/io/maestro/username-app
-# enabling resolution of username-app.maestro.io to the current node
-curl -XPUT -q -d value="{\"host\":\"{{$value.Env.MAESTRO_NODE}}.maestro.io\"}" -d ttl=15 http://etcd.local.maestro.io:2379/v2/keys/skydns/io/maestro/{{$value.Env.MAESTRO_USERNAME}}-{{$value.Env.MAESTRO_APP}}
-# put
-# component.app.stage.username.maestro.io:port
-# into /maestro.io/apps/username-app.maestro.io
-# enabling violino to serve http
-curl -XPUT -q -d value="/skydns/io/maestro/{{$value.Env.MAESTRO_USERNAME}}/{{$value.Env.MAESTRO_STAGE}}/{{$value.Env.MAESTRO_APP}}/{{$value.Env.MAESTRO_COMPONENT}}" -d ttl=15 http://etcd.local.maestro.io:2379/v2/keys/maestro.io/apps/{{$value.Env.MAESTRO_USERNAME}}-{{$value.Env.MAESTRO_APP}}
+# genenerated by dockergen{{range $k, $v := $}}{{$etcd := "http://etcd.local.maestro.io:2379"}}{{$ttl := 15}}{{$username := $v.Env.MAESTRO_USERNAME}}{{$stage := $v.Env.MAESTRO_STAGE}}{{$app := $v.Env.MAESTRO_APP}}{{$component := $v.Env.MAESTRO_COMPONENT}}{{$node := $v.Env.MAESTRO_NODE}}{{$published := $v.Env.MAESTRO_PUBLISHED}}{{$frontend := $v.Env.MAESTRO_FRONTEND}}{{$id := $v.Env.MAESTRO_ID}}
+{{if $username}}
+{{if $v.IP}} # container has an internal ip
+{{if $v.Addresses}} # container has exposed ports
+/usr/local/bin/etcdctl --ttl $ttl -C {{$etcd}} set /skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}}/{{$id}} '{"host":"{{$v.IP}}","port":"{{range $v.Addresses}}{{.Port}}/{{.Proto}}:{{end}}","text":"node:{{$node}},username:{{$username}},stage:{{$stage}},app:{{$app}},component:{{$component}},id:{{$id}},published:{{$published}},frontend:{{$frontend}}{{range $kk, $vv := $v.Volumes}},volume:{{$vv.Path}}:{{$vv.HostPath}}{{end}}"}'
+{{if $published}}
+/usr/local/bin/etcdctl --ttl $ttl -C {{$etcd}} set /skydns/io/maestro/{{$username}}-{{$app}}/{{$id}} '{"host":"{{$node}}.maestro.io"}'
+{{if $frontend}}
+/usr/local/bin/etcdctl --ttl $ttl -C {{$etcd}} set /maestro.io/apps/{{$username}}-{{$app}} "/skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}}"
 {{end}}
 {{end}}
-{{else}}
-{{ if $value.IP }}
-curl -XPUT -q -d value="{\"host\":\"{{$value.IP}}\",\"text\":\"node:{{$value.Env.MAESTRO_NODE}},username:{{$value.Env.MAESTRO_USERNAME}},stage:{{$value.Env.MAESTRO_STAGE}},app:{{$value.Env.MAESTRO_APP}},component:{{$value.Env.MAESTRO_COMPONENT}},dns:{{$value.Env.MAESTRO_DNS}},instance:{{$value.Env.MAESTRO_NUMBER}}\"}" -d ttl=15 http://etcd.local.maestro.io:2379/v2/keys/skydns/io/maestro/{{$value.Env.MAESTRO_USERNAME}}/{{$value.Env.MAESTRO_STAGE}}/{{$value.Env.MAESTRO_APP}}/{{$value.Env.MAESTRO_COMPONENT}}
-{{else}}
-curl -XPUT -q -d value="{\"host\":\"{{$value.Env.MAESTRO_NODE}}.maestro.io\",\"text\":\"node:{{$value.Env.MAESTRO_NODE}},username:{{$value.Env.MAESTRO_USERNAME}},stage:{{$value.Env.MAESTRO_STAGE}},app:{{$value.Env.MAESTRO_APP}},component:{{$value.Env.MAESTRO_COMPONENT}},dns:{{$value.Env.MAESTRO_DNS}},instance:{{$value.Env.MAESTRO_NUMBER}}\"}" -d ttl=15 http://etcd.local.maestro.io:2379/v2/keys/skydns/io/maestro/{{$value.Env.MAESTRO_USERNAME}}/{{$value.Env.MAESTRO_STAGE}}/{{$value.Env.MAESTRO_APP}}/{{$value.Env.MAESTRO_COMPONENT}}
+{{else}} # container run without exposed ports
+/usr/local/bin/etcdctl --ttl $ttl -C {{$etcd}} set /skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}} '{"host":"{{$v.IP}}","text":"node:{{$node}},username:{{$username}},stage:{{$stage}},app:{{$app}},component:{{$component}},id:{{$id}},published:{{$published}},frontend:{{$frontend}}{{range $kk, $vv := $v.Volumes}},volume:{{$vv.Path}}:{{$vv.HostPath}}{{end}}"}'
 {{end}}
-{{end}}
-{{end}}
-{{end}}
+{{else}} # container run with --net=host option. assing ip to node
+/usr/local/bin/etcdctl --ttl $ttl -C {{$etcd}} set /skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}} '{"host":"{{$node}}.maestro.io","text":"node:{{$node}},username:{{$username}},stage:{{$stage}},app:{{$app}},component:{{$component}},id:{{$id}},published:{{$published}},frontend:{{$frontend}}{{range $kk, $vv := $v.Volumes}},volume:{{$vv.Path}}:{{$vv.HostPath}}{{end}}"}'
+{{end}}{{end}}{{end}}
