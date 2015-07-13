@@ -16,7 +16,7 @@
 curl -XPUT -q -d value="{\"host\":\"{{$value.IP}}\",\"port\":{{$address.Port}},\"text\":\"node:{{$value.Env.MAESTRO_NODE}},username:{{$value.Env.MAESTRO_USERNAME}},stage:{{$value.Env.MAESTRO_STAGE}},app:{{$value.Env.MAESTRO_APP}},component:{{$value.Env.MAESTRO_COMPONENT}},dns:{{$value.Env.MAESTRO_DNS}},instance:{{$value.Env.MAESTRO_NUMBER}}\"}" -d ttl=15 http://etcd.local.maestro.io:2379/v2/keys/skydns/io/maestro/{{$value.Env.MAESTRO_USERNAME}}/{{$value.Env.MAESTRO_STAGE}}/{{$value.Env.MAESTRO_APP}}/{{$value.Env.MAESTRO_COMPONENT}}/{{$value.Env.MAESTRO_NUMBER}}
 {{end}}
 {{else}}
-curl -XPUT -q -d value="{\"host\":\"{{$value.IP}}\",\"port\":{{$address.Port}},\"text\":\"node:{{$value.Env.MAESTRO_NODE}},username:{{$value.Env.MAESTRO_USERNAME}},stage:{{$value.Env.MAESTRO_STAGE}},app:{{$value.Env.MAESTRO_APP}},component:{{$value.Env.MAESTRO_COMPONENT}},dns:{{$value.Env.MAESTRO_DNS}},instance:{{$value.Env.MAESTRO_NUMBER}}\"}" -d ttl=15 http://etcd.local.maestro.io:2379/v2/keys/skydns/io/maestro/{{$value.Env.MAESTRO_USERNAME}}/{{$value.Env.MAESTRO_STAGE}}/{{$value.Env.MAESTRO_APP}}/{{$value.Env.MAESTRO_COMPONENT}}
+curl -XPUT -q -d value="{\"host\":\"{{$value.IP}}\",\"port\":{{$address.Port}},\"text\":\"node:{{$value.Env.MAESTRO_NODE}},username:{{$value.Env.MAESTRO_USERNAME}},stage:{{$value.Env.MAESTRO_STAGE}},app:{{$value.Env.MAESTRO_APP}},component:{{$value.Env.MAESTRO_COMPONENT}},dns:{{$value.Env.MAESTRO_DNS}},instance:{{$value.Env.MAESTRO_NUMBER}}\"}" -d ttl=15 http://etcd.local.maestro.io:2379/v2/keys/skydns/io/maestro/{{$value.Env.MAESTRO_USERNAME}}/{{$value.Env.MAESTRO_STAGE}}/{{$value.Env.MAESTRO_APP}}/{{$value.Env.MAESTRO_COMPONENT}}/1
 {{end}}
 {{if $value.Env.MAESTRO_PUBLISHED}}
 # put
