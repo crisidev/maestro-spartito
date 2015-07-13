@@ -28,7 +28,6 @@ curl -XPUT -q -d value="{\"host\":\"{{$value.Env.MAESTRO_NODE}}.maestro.io\"}" -
 # component.app.stage.username.maestro.io:port
 # into /maestro.io/apps/username-app.maestro.io
 # enabling violino to serve http
-curl -XPUT -q -d value="/skydns/io/maestro/{{$value.Env.MAESTRO_USERNAME}}/{{$value.Env.MAESTRO_STAGE}}/{{$value.Env.MAESTRO_APP}}/{{$value.Env.MAESTRO_COMPONENT}}/*" -d ttl=15 http://etcd.local.maestro.io:2379/v2/keys/maestro.io/apps/{{$value.Env.MAESTRO_USERNAME}}-{{$value.Env.MAESTRO_APP}}/{{$value.Env.MAESTRO_NUMBER}}
 curl -XPUT -q -d value="/skydns/io/maestro/{{$value.Env.MAESTRO_USERNAME}}/{{$value.Env.MAESTRO_STAGE}}/{{$value.Env.MAESTRO_APP}}/{{$value.Env.MAESTRO_COMPONENT}}" -d ttl=15 http://etcd.local.maestro.io:2379/v2/keys/maestro.io/apps/{{$value.Env.MAESTRO_USERNAME}}-{{$value.Env.MAESTRO_APP}}
 {{end}}
 {{end}}
