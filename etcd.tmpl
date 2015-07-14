@@ -4,9 +4,9 @@
 {{if $v.IP}} # container has an internal ip
 {{if $v.Addresses}} # container has exposed ports
 /usr/local/bin/etcdctl -C {{$etcd}} set --ttl {{$ttl}} /skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}}/{{$id}} '{"host":"{{$v.IP}}","text":"ports:[{{range $v.Addresses}}{{.Port}}/{{.Proto}},{{end}}],node:{{$node}},username:{{$username}},stage:{{$stage}},app:{{$app}},component:{{$component}},id:{{$id}},published:{{$published}},frontend:{{$frontend}}{{range $kk, $vv := $v.Volumes}},volume:{{$vv.Path}}:{{$vv.HostPath}}{{end}}"}'
-{{if $published}}
+{{if eq $frontend "true"}}
 /usr/local/bin/etcdctl -C {{$etcd}} set --ttl {{$ttl}} /skydns/io/maestro/{{$username}}-{{$app}}/{{$id}} '{"host":"{{$node}}.maestro.io"}'
-{{if $frontend}}
+{{if eq $published "true"}}
 /usr/local/bin/etcdctl -C {{$etcd}} set --ttl {{$ttl}} /maestro.io/apps/{{$username}}-{{$app}} "/skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}}"
 {{end}}
 {{end}}
