@@ -8,7 +8,7 @@
 {{if $frontend}}
 /usr/local/bin/etcdctl -C {{$etcd}} set --ttl {{$ttl}} /skydns/io/maestro/{{$username}}-{{$app}}/{{$id}} '{"host":"{{$node}}.maestro.io"}'
 {{if $published}}
-/usr/local/bin/etcdctl -C {{$etcd}} set --ttl {{$ttl}} /maestro.io/apps/{{$username}}-{{$app}} "/skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}}:{{$a.Port}}"
+/usr/local/bin/etcdctl -C {{$etcd}} set --ttl {{$ttl}} /maestro.io/apps/{{$username}}-{{$app}} '{"watchdir":"/skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}}","port":"{{$a.Port}}"}'
 {{end}}
 {{end}}
 {{end}}
