@@ -1,14 +1,23 @@
+bigo at crack $ cat containers/maestro-spartito/etcd.tmpl                                                                                                  ~/Software/giantswarm/maestro
 #!/bin/bash
-# genenerated by dockergen{{range $k, $v := $}}{{$etcd := "http://etcd.local.maestro.io:2379"}}{{$ttl := "15"}}{{$username := $v.Env.MAESTRO_USERNAME}}{{$stage := $v.Env.MAESTRO_STAGE}}{{$app := $v.Env.MAESTRO_APP}}{{$component := $v.Env.MAESTRO_COMPONENT}}{{$node := $v.Env.MAESTRO_NODE}}{{$published := $v.Env.MAESTRO_PUBLISHED}}{{$frontend := $v.Env.MAESTRO_FRONTEND}}{{$id := $v.Env.MAESTRO_ID}}
+# genenerated by dockergen{{range $k, $v := $}}{{$etcd := "http://etcd.local.maestro.io:2379"}}{{$ttl := "15"}}{{$username := $v.Env.MAESTRO_USERNAME}}{{$stage := $v.Env.MAESTRO_STAGE}}{{$app := $v.Env.MAESTRO_APP}}{{$component := $v.Env.MAESTRO_COMPONENT}}{{$node := $v.Env.MAESTRO_NODE}}{{$published := $v.Env.MAESTRO_PUBLISHED}}{{$frontend := $v.Env.MAESTRO_FRONTEND}}{{$id := $v.Env.MAESTRO_ID}}{{$scalable := $v.Env.MAESTRO_SCALABLE}}
 {{if $username}}
 {{if $v.IP}} # container has an internal ip
 {{if $v.Addresses}} # container has exposed ports
 {{ with $a := index $v.Addresses 0 }}
 /usr/local/bin/etcdctl -C {{$etcd}} set --ttl {{$ttl}} /skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}}/{{$id}} '{"host":"{{$v.IP}}","text":"ports:[{{range $v.Addresses}}{{.Port}}/{{.Proto}},{{end}}],node:{{$node}},username:{{$username}},stage:{{$stage}},app:{{$app}},component:{{$component}},id:{{$id}},published:{{$published}},frontend:{{$frontend}}{{range $kk, $vv := $v.Volumes}},volume:{{$vv.Path}}:{{$vv.HostPath}}{{end}}"}'
 {{if $frontend}}
+{{if $scalable}}
 /usr/local/bin/etcdctl -C {{$etcd}} set --ttl {{$ttl}} /skydns/io/maestro/{{$username}}-{{$app}}/{{$id}} '{"host":"{{$node}}.maestro.io"}'
+{{else}}
+/usr/local/bin/etcdctl -C {{$etcd}} set --ttl {{$ttl}} /skydns/io/maestro/{{$username}}-{{$app}}-{{$component}}/{{$id}} '{"host":"{{$node}}.maestro.io"}'
+{{end}}
 {{if $published}}
+{{if $scalable}}
 /usr/local/bin/etcdctl -C {{$etcd}} set --ttl {{$ttl}} /maestro.io/apps/{{$username}}-{{$app}} '{"watchdir":"/skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}}","port":"{{$a.Port}}"}'
+{{else}}
+/usr/local/bin/etcdctl -C {{$etcd}} set --ttl {{$ttl}} /maestro.io/apps/{{$username}}-{{$app}}-{{$component}} '{"watchdir":"/skydns/io/maestro/{{$username}}/{{$stage}}/{{$app}}/{{$component}}","port":"{{$a.Port}}"}'
+{{end}}
 {{end}}
 {{end}}
 {{end}}
