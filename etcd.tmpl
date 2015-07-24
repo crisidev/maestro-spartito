@@ -1,4 +1,3 @@
-bigo at crack $ cat containers/maestro-spartito/etcd.tmpl                                                                                                  ~/Software/giantswarm/maestro
 #!/bin/bash
 # genenerated by dockergen{{range $k, $v := $}}{{$etcd := "http://etcd.local.maestro.io:2379"}}{{$ttl := "15"}}{{$username := $v.Env.MAESTRO_USERNAME}}{{$stage := $v.Env.MAESTRO_STAGE}}{{$app := $v.Env.MAESTRO_APP}}{{$component := $v.Env.MAESTRO_COMPONENT}}{{$node := $v.Env.MAESTRO_NODE}}{{$published := $v.Env.MAESTRO_PUBLISHED}}{{$frontend := $v.Env.MAESTRO_FRONTEND}}{{$id := $v.Env.MAESTRO_ID}}{{$scalable := $v.Env.MAESTRO_SCALABLE}}
 {{if $username}}
