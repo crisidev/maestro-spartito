@@ -33,3 +33,4 @@
     /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$i}} '{"host":"{{$n}}.maestro.io","text":"{\"ports\":[{{range $v.Addresses}}\"{{.Port}}/{{.Proto}}\",{{end}}],\"node\":\"{{$n}}\",\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},\"scalable\":{{$S}},\"dns\":\"{{$d}}.maestro.io\",\"volumes\":[{{range $kk, $vv := $v.Volumes}}\"{{$vv.HostPath}}:{{$vv.Path}}\",{{end}}]}"'
   {{end}}
 {{end}}
+{{end}}
