@@ -7,21 +7,23 @@
     {{else}} # container is scalable / non scalable
       /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$i}} '{"host":"{{$v.IP}}","text":"{\"ports\":[{{range $v.Addresses}}\"{{.Port}}/{{.Proto}}\",{{end}}],\"node\":\"{{$n}}\",\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},\"scalable\":{{$S}},\"dns\":\"{{$d}}.maestro.io\",\"volumes\":[{{range $kk, $vv := $v.Volumes}}\"{{$vv.HostPath}}:{{$vv.Path}}\",{{end}}]}"'
     {{end}}
-    {{with $A := index $v.Addresses 0}} # TODO: only first port is advertised
-      {{if $f}} # container is a frontend
-        {{if $g}} # container is global
-          /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}-{{$a}}-{{$c}}/{{$n}} '{"host":"violino.maestro.io"}'
-        {{else}} # container is scalable / non scalable
-          /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}-{{$a}}-{{$c}}/{{$i}} '{"host":"violino.maestro.io"}'
-        {{end}}
-        /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /maestro.io/apps/{{$u}}-{{$a}}-{{$c}} '{"watchdir":"/skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}","port":"{{$A.Port}}"}'
-        {{if $d}} # container wants a custom dns
+    {{if $v.Addresses}} # container has exposed ports
+      {{with $A := index $v.Addresses 0}} # TODO: only first port is advertised
+        {{if $f}} # container is a frontend
           {{if $g}} # container is global
-            /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$d}}/{{$n}} '{"host":"violino.maestro.io"}'
+            /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}-{{$a}}-{{$c}}/{{$n}} '{"host":"violino.maestro.io"}'
           {{else}} # container is scalable / non scalable
-            /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$d}}/{{$i}} '{"host":"violino.maestro.io"}'
+            /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}-{{$a}}-{{$c}}/{{$i}} '{"host":"violino.maestro.io"}'
           {{end}}
-          /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /maestro.io/apps/{{$d}} '{"watchdir":"/skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}","port":"{{$A.Port}}"}'
+          /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /maestro.io/apps/{{$u}}-{{$a}}-{{$c}} '{"watchdir":"/skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}","port":"{{$A.Port}}"}'
+          {{if $d}} # container wants a custom dns
+            {{if $g}} # container is global
+              /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$d}}/{{$n}} '{"host":"violino.maestro.io"}'
+            {{else}} # container is scalable / non scalable
+              /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$d}}/{{$i}} '{"host":"violino.maestro.io"}'
+            {{end}}
+            /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /maestro.io/apps/{{$d}} '{"watchdir":"/skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}","port":"{{$A.Port}}"}'
+          {{end}}
         {{end}}
       {{end}}
     {{end}}
