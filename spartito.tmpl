@@ -1,5 +1,5 @@
 #!/bin/bash
-# genenerated by dockergen{{range $k, $v := $}}{{$e := "http://etcd.local.maestro.io:2379"}}{{$t := "15"}}{{$u := $v.Env.MAESTRO_USERNAME}}{{$s := $v.Env.MAESTRO_STAGE}}{{$a := $v.Env.MAESTRO_APP}}{{$c := $v.Env.MAESTRO_COMPONENT}}{{$i := $v.Env.MAESTRO_ID}}{{$n := $v.Env.MAESTRO_NODE}}{{$D := $v.Env.MAESTRO_DNS}}{{$f := $v.Env.MAESTRO_FRONTEND}}{{$S := $v.Env.MAESTRO_SCALABLE}}{{$g := $v.Env.MAESTRO_GLOBAL}}{{$d := printf "%s.%s.%s.%s.maestro.io" $c,$a,%s,%u}}
+# genenerated by dockergen{{range $k, $v := $}}{{$e := "http://etcd.local.maestro.io:2379"}}{{$t := "15"}}{{$u := $v.Env.MAESTRO_USERNAME}}{{$s := $v.Env.MAESTRO_STAGE}}{{$a := $v.Env.MAESTRO_APP}}{{$c := $v.Env.MAESTRO_COMPONENT}}{{$i := $v.Env.MAESTRO_ID}}{{$n := $v.Env.MAESTRO_NODE}}{{$D := $v.Env.MAESTRO_DNS}}{{$f := $v.Env.MAESTRO_FRONTEND}}{{$S := $v.Env.MAESTRO_SCALABLE}}{{$g := $v.Env.MAESTRO_GLOBAL}}{{$d := printf "%s.%s.%s.%s.maestro.io" $c $a %s %u}}
 {{if $u}}
   {{if $v.IP}} # container has an internal ip
     {{if $g}} # container is global
