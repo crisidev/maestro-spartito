@@ -16,8 +16,8 @@ RUN mv etcd-v2.0.13-linux-amd64/etcdctl /usr/local/bin
 RUN pip install python-etcd
 RUN pip install haproxy_log_analysis
 
-ADD etcd.tmpl etcd.tmpl
+ADD spartito.tmpl spartito.tmpl
 
 ENV DOCKER_HOST unix:///var/run/docker.sock
 
-CMD docker-gen -notify "/bin/bash /tmp/etcd.sh" -interval 10 etcd.tmpl /tmp/etcd.sh
+CMD docker-gen -notify "/bin/bash /tmp/spartito.sh" -interval 10 spartito.tmpl /tmp/spartito.sh
