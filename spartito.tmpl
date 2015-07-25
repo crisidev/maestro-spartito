@@ -5,9 +5,9 @@
     {{if $v.Addresses}} # container has exposed ports
       {{with $A := index $v.Addresses 0}} # TODO: only first port is advertised
         {{if $g}} # container is global
-          /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$n}} '{"host":"{{$v.IP}}","text":"{\"ports\":[{{range $v.Addresses}}\"{{.Port}}/{{.Proto}}\",{{end}}],\"node\":\"{{$n}}\",\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},\"scalable\":{{$S}},\"dns\":\"{{$dns}}.maestro.io\",\"volumes\":[{{range $kk, $vv := $v.Volumes}}\"{{$vv.HostPath}}:{{$vv.Path}}\",{{end}}]}"'
+          /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$n}} '{"host":"{{$v.IP}}","text":"{\"ports\":[{{range $v.Addresses}}\"{{.Port}}/{{.Proto}}\",{{end}}],\"node\":\"{{$n}}\",\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},\"scalable\":{{$S}},\"dns\":\"{{$d}}.maestro.io\",\"volumes\":[{{range $kk, $vv := $v.Volumes}}\"{{$vv.HostPath}}:{{$vv.Path}}\",{{end}}]}"'
         {{else}} # container is scalable / non scalable
-          /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$i}} '{"host":"{{$v.IP}}","text":"{\"ports\":[{{range $v.Addresses}}\"{{.Port}}/{{.Proto}}\",{{end}}],\"node\":\"{{$n}}\",\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},\"scalable\":{{$S}},\"dns\":\"{{$dns}}.maestro.io\",\"volumes\":[{{range $kk, $vv := $v.Volumes}}\"{{$vv.HostPath}}:{{$vv.Path}}\",{{end}}]}"'
+          /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$i}} '{"host":"{{$v.IP}}","text":"{\"ports\":[{{range $v.Addresses}}\"{{.Port}}/{{.Proto}}\",{{end}}],\"node\":\"{{$n}}\",\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},\"scalable\":{{$S}},\"dns\":\"{{$d}}.maestro.io\",\"volumes\":[{{range $kk, $vv := $v.Volumes}}\"{{$vv.HostPath}}:{{$vv.Path}}\",{{end}}]}"'
         {{end}}
         {{if $f}} # container is a frontend
           {{if $g}} # container is global
@@ -27,9 +27,9 @@
         {{end}}
       {{end}}
     {{else}} # container without exposed ports
-      /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$i}} '{"host":"{{$v.IP}}","text":"{\"ports\":[{{range $v.Addresses}}\"{{.Port}}/{{.Proto}}\",{{end}}],\"node\":\"{{$n}}\",\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},\"scalable\":{{$S}},\"dns\":\"{{$dns}}.maestro.io\",\"volumes\":[{{range $kk, $vv := $v.Volumes}}\"{{$vv.HostPath}}:{{$vv.Path}}\",{{end}}]}"'
+      /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$i}} '{"host":"{{$v.IP}}","text":"{\"ports\":[{{range $v.Addresses}}\"{{.Port}}/{{.Proto}}\",{{end}}],\"node\":\"{{$n}}\",\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},\"scalable\":{{$S}},\"dns\":\"{{$d}}.maestro.io\",\"volumes\":[{{range $kk, $vv := $v.Volumes}}\"{{$vv.HostPath}}:{{$vv.Path}}\",{{end}}]}"'
     {{end}}
   {{else}}
-    /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$i}} '{"host":"{{$n}}.maestro.io","text":"{\"ports\":[{{range $v.Addresses}}\"{{.Port}}/{{.Proto}}\",{{end}}],\"node\":\"{{$n}}\",\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},\"scalable\":{{$S}},\"dns\":\"{{$dns}}.maestro.io\",\"volumes\":[{{range $kk, $vv := $v.Volumes}}\"{{$vv.HostPath}}:{{$vv.Path}}\",{{end}}]}"'
+    /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$i}} '{"host":"{{$n}}.maestro.io","text":"{\"ports\":[{{range $v.Addresses}}\"{{.Port}}/{{.Proto}}\",{{end}}],\"node\":\"{{$n}}\",\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},\"scalable\":{{$S}},\"dns\":\"{{$d}}.maestro.io\",\"volumes\":[{{range $kk, $vv := $v.Volumes}}\"{{$vv.HostPath}}:{{$vv.Path}}\",{{end}}]}"'
   {{end}}
 {{end}}
