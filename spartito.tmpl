@@ -31,7 +31,7 @@
     {{end}}
   {{else}} # container run in host mode
     {{if $g}} # container is global
-      /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$n}} '{"host":"{{$n}}.maestro.io","text":"{\"node\":\"{{$n}}\",\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},\"scalable\":{{$S}},\"dns\":\"{{$d}}\",{{if $D}}\"dnscustom\":\"{{$D}}\",{{end}}\"volumes\":[{{range $kk, $vv := $v.Volumes}}\"{{$vv.HostPath}}:{{$vv.Path}}\",{{end}}]}"}'
+      /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$n}}/{{$i}} '{"host":"{{$n}}.maestro.io","text":"{\"node\":\"{{$n}}\",\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},\"scalable\":{{$S}},\"dns\":\"{{$d}}\",{{if $D}}\"dnscustom\":\"{{$D}}\",{{end}}\"volumes\":[{{range $kk, $vv := $v.Volumes}}\"{{$vv.HostPath}}:{{$vv.Path}}\",{{end}}]}"}'
     {{else}}
       /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$i}} '{"host":"{{$n}}.maestro.io","text":"{\"node\":\"{{$n}}\",\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},\"scalable\":{{$S}},\"dns\":\"{{$d}}\",{{if $D}}\"dnscustom\":\"{{$D}}\",{{end}}\"volumes\":[{{range $kk, $vv := $v.Volumes}}\"{{$vv.HostPath}}:{{$vv.Path}}\",{{end}}]}"}'
     {{end}}
