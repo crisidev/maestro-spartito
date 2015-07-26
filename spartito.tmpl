@@ -11,7 +11,7 @@
       {{with $A := index $v.Addresses 0}} # TODO: only first port is advertised
         {{if $f}} # container is a frontend
           {{if $g}} # container is global
-            /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}-{{$s}}-{{$a}}-{{$c}}/{{$n}} '{"host":"violino.maestro.io"}'
+            /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}-{{$s}}-{{$a}}-{{$c}}/{{$n}} '{"host":"{{$n}}.maestro.io"}'
             /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /maestro.io/apps/{{$n}}.{{$u}}-{{$s}}-{{$a}}-{{$c}} '{"watchdir":"/skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$n}}","port":"{{$A.Port}}"}'
           {{else}} # container is scalable / non scalable
             /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}-{{$s}}-{{$a}}-{{$c}}/{{$i}} '{"host":"violino.maestro.io"}'
