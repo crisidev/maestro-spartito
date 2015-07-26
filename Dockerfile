@@ -20,4 +20,4 @@ ADD spartito.tmpl spartito.tmpl
 
 ENV DOCKER_HOST unix:///var/run/docker.sock
 
-CMD docker-gen -notify "/bin/bash /tmp/spartito.sh" -interval 10 spartito.tmpl /tmp/spartito.sh
+CMD docker-gen -notify "/bin/bash /tmp/spartito.sh" -interval 10 spartito.tmpl /tmp/spartito.sh > /dev/null
