@@ -3,9 +3,9 @@
 {{if $u}}
   {{if $v.IP}} # container has an internal ip
     {{if $g}} # container is global
-    /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$n}}/{{$i}} '{"host":"{{$v.IP}}","text":"{\"node\":\"{{$n}}\",{{range $v.Addresses}}\"port\":\"{{.Port}}/{{.Proto}}\",{{end}}\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},{{if $D}}\"dnscustom\":\"{{$D}}.maestro.io\",{{end}}\",\"dns\":\"{{$d}}\"}"}'
+    /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$n}}/{{$i}} '{"host":"{{$v.IP}}","text":"{\"node\":\"{{$n}}\",{{range $v.Addresses}}\"port\":\"{{.Port}}/{{.Proto}}\",{{end}}\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",{{if $f}}\"frontend\":{{$f}},{{end}}{{if $g}}\"global\":{{$g}},{{end}}{{if $D}}\"dnscustom\":\"{{$D}}.maestro.io\",{{end}}\"{{if $d}}\"dns\":\"{{$d}}\",{{end}}\"id\":{{$i}}}"}'
     {{else}} # container is scalable / non scalable
-    /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$i}} '{"host":"{{$v.IP}}","text":"{\"node\":\"{{$n}}\",{{range $v.Addresses}}\"port\":\"{{.Port}}/{{.Proto}}\",{{end}}\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},{{if $D}}\"dnscustom\":\"{{$D}}.maestro.io\",{{end}}\",\"dns\":\"{{$d}}\"}"}'
+    /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$i}} '{"host":"{{$v.IP}}","text":"{\"node\":\"{{$n}}\",{{range $v.Addresses}}\"port\":\"{{.Port}}/{{.Proto}}\",{{end}}\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",{{if $f}}\"frontend\":{{$f}},{{end}}{{if $g}}\"global\":{{$g}},{{end}}{{if $D}}\"dnscustom\":\"{{$D}}.maestro.io\",{{end}}\"{{if $d}}\"dns\":\"{{$d}}\",{{end}}\"id\":{{$i}}}"}'
     {{end}}
     {{if $v.Addresses}} # container has exposed ports
       {{with $A := index $v.Addresses 0}} # TODO: only first port is advertised
@@ -31,9 +31,9 @@
     {{end}}
   {{else}} # container run in host mode
     {{if $g}} # container is global
-      /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$n}}/{{$i}} '{"host":"{{$n}}.maestro.io","text":"{\"node\":\"{{$n}}\",\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},{{if $D}}\"dnscustom\":\"{{$D}}.maestro.io\",{{end}}\",\"dns\":\"{{$d}}\"}"}'
+      /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$n}}/{{$i}} '{"host":"{{$n}}.maestro.io","text":"{\"node\":\"{{$n}}\",{{range $v.Addresses}}\"port\":\"{{.Port}}/{{.Proto}}\",{{end}}\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",{{if $f}}\"frontend\":{{$f}},{{end}}{{if $g}}\"global\":{{$g}},{{end}}{{if $D}}\"dnscustom\":\"{{$D}}.maestro.io\",{{end}}\"{{if $d}}\"dns\":\"{{$d}}\",{{end}}\"id\":{{$i}}}"}'
     {{else}}
-      /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$i}} '{"host":"{{$n}}.maestro.io","text":"{\"node\":\"{{$n}}\",\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",\"id\":{{$i}},\"frontend\":{{$f}},\"global\":{{$g}},{{if $D}}\"dnscustom\":\"{{$D}}.maestro.io\",{{end}}\",\"dns\":\"{{$d}}\"}"}'
+      /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$i}} '{"host":"{{$n}}.maestro.io","text":"{\"node\":\"{{$n}}\",{{range $v.Addresses}}\"port\":\"{{.Port}}/{{.Proto}}\",{{end}}\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",{{if $f}}\"frontend\":{{$f}},{{end}}{{if $g}}\"global\":{{$g}},{{end}}{{if $D}}\"dnscustom\":\"{{$D}}.maestro.io\",{{end}}\"{{if $d}}\"dns\":\"{{$d}}\",{{end}}\"id\":{{$i}}}"}'
     {{end}}
   {{end}}
 {{end}}
