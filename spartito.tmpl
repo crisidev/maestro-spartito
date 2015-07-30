@@ -5,12 +5,12 @@
     {{if $g}} # container is global
       {{if not $f}}
         /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /maestro.io/apps/backends/{{$n}}.{{$u}}-{{$s}}-{{$a}}-{{$c}} '{"watchdir":"/skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$n}}"}'
-      {{endif}}
+      {{end}}
       /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$n}}/{{$i}} '{"host":"{{$v.IP}}","text":"{\"node\":\"{{$n}}\",{{range $v.Addresses}}\"port\":\"{{.Port}}/{{.Proto}}\",{{end}}\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",{{if $f}}\"frontend\":{{$f}},{{end}}{{if $g}}\"global\":{{$g}},{{end}}{{if $D}}\"dnscustom\":\"{{$D}}.maestro.io\",{{end}}{{if $d}}\"dns\":\"{{$d}}\",{{end}}\"id\":{{$i}}}"}'
     {{else}} # container is scalable / non scalable
       {{if not $f}}
         /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /maestro.io/apps/backends/{{$u}}-{{$s}}-{{$a}}-{{$c}} '{"watchdir":"/skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}"}'
-      {{endif}}
+      {{end}}
       /usr/local/bin/etcdctl -C {{$e}} set --ttl {{$t}} /skydns/io/maestro/{{$u}}/{{$s}}/{{$a}}/{{$c}}/{{$i}} '{"host":"{{$v.IP}}","text":"{\"node\":\"{{$n}}\",{{range $v.Addresses}}\"port\":\"{{.Port}}/{{.Proto}}\",{{end}}\"username\":\"{{$u}}\",\"stage\":\"{{$s}}\",\"app\":\"{{$a}}\",\"component\":\"{{$c}}\",{{if $f}}\"frontend\":{{$f}},{{end}}{{if $g}}\"global\":{{$g}},{{end}}{{if $D}}\"dnscustom\":\"{{$D}}.maestro.io\",{{end}}{{if $d}}\"dns\":\"{{$d}}\",{{end}}\"id\":{{$i}}}"}'
     {{end}}
     {{if $v.Addresses}} # container has exposed ports
